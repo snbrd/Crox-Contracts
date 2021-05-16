@@ -59,12 +59,11 @@ contract Timelock {
         admin_initialized = false;
     }
 
-    // XXX: function() external payable { }
     receive() external payable {}
 
     function setDelay(uint256 delay_) public {
         require(
-            msg.sender == address(this),
+            msg.sender == admin,
             "Timelock::setDelay: Call must come from Timelock."
         );
         require(
@@ -95,7 +94,7 @@ contract Timelock {
         // allows one time setting of admin for deployment purposes
         if (admin_initialized) {
             require(
-                msg.sender == address(this),
+                msg.sender == admin,
                 "Timelock::setPendingAdmin: Call must come from Timelock."
             );
         } else {
